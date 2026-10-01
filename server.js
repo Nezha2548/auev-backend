@@ -1,27 +1,30 @@
 const express = require('express');
-const mysql = require('mysql2');
+const mysql = require('mysql2'); // หรือ require('mysql') ตามแพ็กเกจที่คุณติดตั้งไว้
 const cors = require('cors');
-const app = express();
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
+// --- การเชื่อมต่อฐานข้อมูล Aiven Cloud ---
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',      
-    password: '',
-    database: 'chuayram_db' 
+    host: 'mysql-auev-project-auev.i.aivencloud.com',
+    port: 27978,
+    user: 'avnadmin',
+    password: 'AVNS_uZddvbyTSR0NkDjwR8_',
+    database: 'defaultdb',
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
-db.connect((err) => {
+db.connect(err => {
     if (err) {
-        console.error('เชื่อมต่อฐานข้อมูลล้มเหลว:', err.message);
+        console.error("❌ เชื่อมต่อ Aiven Cloud ไม่สำเร็จ:", err);
         return;
     }
-    console.log('เชื่อมต่อฐานข้อมูล MySQL แล้ว');
+    console.log("✅ เชื่อมต่อฐานข้อมูล Aiven สำเร็จแล้ว!");
 });
-
-const PORT = 3000;
 
 app.get('/api/modules', (req, res) => {
     const sql = `
