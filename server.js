@@ -26,6 +26,10 @@ db.connect(err => {
     console.log("✅ เชื่อมต่อฐานข้อมูล Aiven สำเร็จแล้ว!");
 });
 
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => console.log(`Server กำลังรันอยู่ที่พอร์ต ${PORT}`));
+
 app.get('/api/modules', (req, res) => {
     const sql = `
         SELECT 
